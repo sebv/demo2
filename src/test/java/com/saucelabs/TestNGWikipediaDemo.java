@@ -156,8 +156,8 @@ public class TestNGWikipediaDemo {
         Ctx ctx = (Ctx) threadLocal.get();
         WebDriver driver = ctx.driver;
         try {
-            // looping between 3 and 10 times
-            int numOfLoops = randomGenerator.nextInt(7) + 3;
+            // looping between 1 and 3 times
+            int numOfLoops = randomGenerator.nextInt(3) + 1;
             for (int idx = 1; idx <= 10; ++idx) {
 
                 // a few tests on the Wikipedia root page
@@ -165,7 +165,7 @@ public class TestNGWikipediaDemo {
                 Assert.assertEquals("Wikipedia", driver.getTitle());
 
                 // coffee break
-                Thread.sleep(1000 * (1 + randomGenerator.nextInt(4)));
+                Thread.sleep(1000 * (1 + randomGenerator.nextInt(2)));
 
                 // more test on the Wikipedia Ultimate Fighting Championship page
                 driver.get("http://en.wikipedia.org/wiki/Ultimate_Fighting_Championship");
