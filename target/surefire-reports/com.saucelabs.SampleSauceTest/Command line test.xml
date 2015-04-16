@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite hostname="Neils-MacBook-Pro.local" name="com.saucelabs.SampleSauceTest" tests="4" failures="0" timestamp="15 Apr 2015 23:11:31 GMT" time="16.47" errors="0">
-  <testcase name="goToHistorySection" time="1.884" classname="com.saucelabs.SampleSauceTest"/>
-  <testcase name="verifyEditPageUI" time="3.066" classname="com.saucelabs.SampleSauceTest"/>
-  <testcase name="verifyLaunch" time="1.117" classname="com.saucelabs.SampleSauceTest"/>
-  <testcase name="verifySearchForUFC" time="2.98" classname="com.saucelabs.SampleSauceTest"/>
-</testsuite>
