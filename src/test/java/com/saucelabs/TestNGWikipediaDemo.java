@@ -51,7 +51,7 @@ public class TestNGWikipediaDemo {
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         capabilities.setCapability("name", "TestNGWikipediaDemo - " + method.getName());
         ctx.driver = new RemoteWebDriver(
-                new URL("http://" + username + ":" + accessKey + "@ondemand.saucelabs.com:80/wd/hub"),
+                new URL("https://" + username + ":" + accessKey + "@ondemand.saucelabs.com:443/wd/hub"),
                 capabilities);
         ctx.driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         ctx.jobId = ((RemoteWebDriver) ctx.driver).getSessionId().toString();
@@ -90,135 +90,6 @@ public class TestNGWikipediaDemo {
             ctx.passed = false;
             throw e;
         }
-    }
-
-    @Test
-    public void verifyLaunchBis() throws Exception {
-        verifyLaunch();
-    }
-
-    @Test
-    public void verifyLaunchTer() throws Exception {
-        verifyLaunch();
-    }
-
-    @Test
-    public void verifySearchForUFC() throws Exception {
-        Ctx ctx = (Ctx) threadLocal.get();
-        WebDriver driver = ctx.driver;
-        try {
-            driver.get("http://wikipedia.org");
-
-            // Fill out search box with UFC and click search
-            driver.findElement(By.cssSelector("#searchInput")).sendKeys("UFC");
-            driver.findElement(By.cssSelector(".search-form .formBtn")).click();
-
-            // verify UFC page is there
-            Assert.assertEquals("http://en.wikipedia.org/wiki/Ultimate_Fighting_Championship", driver.getCurrentUrl());
-            Assert.assertEquals("Ultimate Fighting Championship - Wikipedia, the free encyclopedia", driver.getTitle());
-        } catch (Exception e) {
-            ctx.passed = false;
-            throw e;
-        }
-    }
-
-    @Test
-    public void verifySearchForUFCBis() throws Exception {
-        verifySearchForUFC();
-    }
-
-    @Test
-    public void verifySearchForUFCTer() throws Exception {
-        verifySearchForUFC();
-    }
-
-    @Test
-    public void goToHistorySection() throws Exception {
-        Ctx ctx = (Ctx) threadLocal.get();
-        WebDriver driver = ctx.driver;
-        try {
-            driver.get("http://en.wikipedia.org/wiki/Ultimate_Fighting_Championship");
-
-            // click History
-            driver.findElement(By.cssSelector("li [href='#History']")).click();
-            Assert.assertEquals("http://en.wikipedia.org/wiki/Ultimate_Fighting_Championship#History", driver.getCurrentUrl());
-
-            // make sure we have scrolled to history
-            JavascriptExecutor executor = (JavascriptExecutor) driver;
-            Long value = (Long) executor.executeScript("return window.scrollY;");
-            Assert.assertNotEquals(value, 0, 0);
-        } catch (Exception e) {
-            ctx.passed = false;
-            throw e;
-        }
-    }
-
-    @Test
-    public void goToHistorySectionBis() throws Exception {
-        goToHistorySection();
-    }
-
-    @Test
-    public void goToHistorySectionTer() throws Exception {
-        goToHistorySection();
-    }
-
-    @Test
-    public void verifyEditPageUI() throws Exception {
-        Ctx ctx = (Ctx) threadLocal.get();
-        WebDriver driver = ctx.driver;
-        try {
-            driver.get("http://en.wikipedia.org/wiki/Ultimate_Fighting_Championship");
-
-            // click edit page
-            driver.findElement(By.cssSelector("#ca-edit a")).click();
-
-            // verify edit page UI
-            Assert.assertEquals("http://en.wikipedia.org/w/index.php?title=Ultimate_Fighting_Championship&action=edit", driver.getCurrentUrl());
-            Assert.assertTrue(driver.findElement(By.cssSelector(".wikiEditor-ui")).isDisplayed());
-        } catch (Exception e) {
-            ctx.passed = false;
-            throw e;
-        }
-    }
-
-    @Test
-    private void longTest() throws Exception {
-        Ctx ctx = (Ctx) threadLocal.get();
-        WebDriver driver = ctx.driver;
-        try {
-            // looping between 1 and 3 times
-            int numOfLoops = randomGenerator.nextInt(3) + 1;
-            for (int idx = 1; idx <= 10; ++idx) {
-
-                // a few tests on the Wikipedia root page
-                driver.get("http://wikipedia.org");
-                Assert.assertEquals("Wikipedia", driver.getTitle());
-
-                // coffee break
-                Thread.sleep(1000 * (1 + randomGenerator.nextInt(2)));
-
-                // more test on the Wikipedia Ultimate Fighting Championship page
-                driver.get("http://en.wikipedia.org/wiki/Ultimate_Fighting_Championship");
-                driver.findElement(By.cssSelector("#ca-edit a")).click();
-                Assert.assertEquals(
-                        "http://en.wikipedia.org/w/index.php?title=Ultimate_Fighting_Championship&action=edit",
-                        driver.getCurrentUrl());
-            }
-        } catch (Exception e) {
-            ctx.passed = false;
-            throw e;
-        }
-    }
-
-    @Test
-    public void longTestBis() throws Exception {
-        longTest();
-    }
-
-    @Test
-    public void longTestTer() throws Exception {
-        longTest();
     }
 
  }
