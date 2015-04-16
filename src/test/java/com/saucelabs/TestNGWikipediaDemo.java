@@ -93,6 +93,16 @@ public class TestNGWikipediaDemo {
     }
 
     @Test
+    public void verifyLaunchBis() throws Exception {
+        verifyLaunch();
+    }
+
+    @Test
+    public void verifyLaunchTer() throws Exception {
+        verifyLaunch();
+    }
+
+    @Test
     public void verifySearchForUFC() throws Exception {
         Ctx ctx = (Ctx) threadLocal.get();
         WebDriver driver = ctx.driver;
@@ -110,6 +120,16 @@ public class TestNGWikipediaDemo {
             ctx.passed = false;
             throw e;
         }
+    }
+
+    @Test
+    public void verifySearchForUFCBis() throws Exception {
+        verifySearchForUFC();
+    }
+
+    @Test
+    public void verifySearchForUFCTer() throws Exception {
+        verifySearchForUFC();
     }
 
     @Test
@@ -134,6 +154,16 @@ public class TestNGWikipediaDemo {
     }
 
     @Test
+    public void goToHistorySectionBis() throws Exception {
+        goToHistorySection();
+    }
+
+    @Test
+    public void goToHistorySectionTer() throws Exception {
+        goToHistorySection();
+    }
+
+    @Test
     public void verifyEditPageUI() throws Exception {
         Ctx ctx = (Ctx) threadLocal.get();
         WebDriver driver = ctx.driver;
@@ -152,7 +182,8 @@ public class TestNGWikipediaDemo {
         }
     }
 
-    private void longTestImpl() throws Exception {
+    @Test
+    private void longTest() throws Exception {
         Ctx ctx = (Ctx) threadLocal.get();
         WebDriver driver = ctx.driver;
         try {
@@ -181,27 +212,13 @@ public class TestNGWikipediaDemo {
     }
 
     @Test
-    public void longTest1() throws Exception {
-        longTestImpl();
+    public void longTestBis() throws Exception {
+        longTest();
     }
 
     @Test
-    public void longTest2() throws Exception {
-        longTestImpl();
+    public void longTestTer() throws Exception {
+        longTest();
     }
 
-    @Test
-    public void longTest3() throws Exception {
-        longTestImpl();
-    }
-
-    @Test
-    public void longTest4() throws Exception {
-        longTestImpl();
-    }
-
-    @Test
-    public void longTest5() throws Exception {
-        longTestImpl();
-    }
  }
