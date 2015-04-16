@@ -20,6 +20,7 @@ import org.openqa.selenium.By;
 import java.net.URL;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import com.saucelabs.saucerest.SauceREST;
 
@@ -46,6 +47,7 @@ public class TestNGWikipediaDemo {
         this.driver = new RemoteWebDriver(
                 new URL("http://" + username + ":" + accessKey + "@ondemand.saucelabs.com:80/wd/hub"),
                 capabilities);
+        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         sauceREST = new SauceREST(username, accessKey);
         this.jobId = ((RemoteWebDriver) driver).getSessionId().toString();
     }
@@ -60,6 +62,7 @@ public class TestNGWikipediaDemo {
         driver.quit();
     }
 
+    /*
     @Test
     public void verifyLaunch() throws Exception {
         try {
@@ -132,7 +135,7 @@ public class TestNGWikipediaDemo {
             throw e;
         }
     }
-
+    */
     private void longTestImpl() throws Exception {
         try {
             // looping between 3 and 10 times
@@ -158,7 +161,7 @@ public class TestNGWikipediaDemo {
             throw e;
         }
     }
-
+    /*
     @Test
     public void longTest1() throws Exception {
         longTestImpl();
@@ -168,7 +171,7 @@ public class TestNGWikipediaDemo {
     public void longTest2() throws Exception {
         longTestImpl();
     }
-
+    */
     @Test
     public void longTest3() throws Exception {
         longTestImpl();
