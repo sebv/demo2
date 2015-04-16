@@ -24,40 +24,48 @@ import java.util.concurrent.TimeUnit;
 
 import com.saucelabs.saucerest.SauceREST;
 
+class Ctx {
+    public WebDriver driver;
+    public String jobId;
+    public boolean passed;
+}
+
 public class TestNGWikipediaDemo {
     /*
     String username = "random";
     String accessKey = "iforgot";
     */
 
-    Map<String, String> env = System.getenv();
-    String username = env.get("SAUCE_USERNAME");
-    String accessKey = env.get("SAUCE_ACCESS_KEY");
-    Random randomGenerator = new Random();
+    private Map<String, String> env = System.getenv();
+    private String username = env.get("SAUCE_USERNAME");
+    private String accessKey = env.get("SAUCE_ACCESS_KEY");
+    private Random randomGenerator = new Random();
+    private SauceREST sauceREST = new SauceREST(username, accessKey);
 
-    private WebDriver driver;
-    String jobId;
-    boolean passed = true;
-    private SauceREST sauceREST;
+    private ThreadLocal threadLocal = new ThreadLocal();
 
     @BeforeMethod
     public void setUp(Method method) throws Exception {
+        if(threadLocal.get() == null) threadLocal.set(new Ctx());
+        Ctx ctx = (Ctx) threadLocal.get();
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         capabilities.setCapability("name", "TestNGWikipediaDemo - " + method.getName());
-        this.driver = new RemoteWebDriver(
+        ctx.driver = new RemoteWebDriver(
                 new URL("http://" + username + ":" + accessKey + "@ondemand.saucelabs.com:80/wd/hub"),
                 capabilities);
-        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-        sauceREST = new SauceREST(username, accessKey);
-        this.jobId = ((RemoteWebDriver) driver).getSessionId().toString();
+        ctx.driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+        ctx.jobId = ((RemoteWebDriver) ctx.driver).getSessionId().toString();
+        ctx.passed = true;
     }
 
     @AfterMethod
     public void tearDown() throws Exception {
-        if (passed) {
-            sauceREST.jobPassed(jobId);
+        Ctx ctx = (Ctx) threadLocal.get();
+        WebDriver driver = ctx.driver;
+        if (ctx.passed) {
+            sauceREST.jobPassed(ctx.jobId);
         } else {
-            sauceREST.jobFailed(jobId);
+            sauceREST.jobFailed(ctx.jobId);
         }
         driver.quit();
     }
@@ -65,6 +73,8 @@ public class TestNGWikipediaDemo {
 
     @Test
     public void verifyLaunch() throws Exception {
+        Ctx ctx = (Ctx) threadLocal.get();
+        WebDriver driver = ctx.driver;
         try {
             driver.get("http://wikipedia.org");
 
@@ -77,13 +87,15 @@ public class TestNGWikipediaDemo {
             Assert.assertTrue(driver.findElement(By.cssSelector("#searchLanguage")).isDisplayed());
             Assert.assertTrue(driver.findElement(By.cssSelector(".search-form .formBtn")).isDisplayed());
         } catch (Exception e) {
-            passed = false;
+            ctx.passed = false;
             throw e;
         }
     }
 
     @Test
     public void verifySearchForUFC() throws Exception {
+        Ctx ctx = (Ctx) threadLocal.get();
+        WebDriver driver = ctx.driver;
         try {
             driver.get("http://wikipedia.org");
 
@@ -95,13 +107,15 @@ public class TestNGWikipediaDemo {
             Assert.assertEquals("http://en.wikipedia.org/wiki/Ultimate_Fighting_Championship", driver.getCurrentUrl());
             Assert.assertEquals("Ultimate Fighting Championship - Wikipedia, the free encyclopedia", driver.getTitle());
         } catch (Exception e) {
-            passed = false;
+            ctx.passed = false;
             throw e;
         }
     }
 
     @Test
     public void goToHistorySection() throws Exception {
+        Ctx ctx = (Ctx) threadLocal.get();
+        WebDriver driver = ctx.driver;
         try {
             driver.get("http://en.wikipedia.org/wiki/Ultimate_Fighting_Championship");
 
@@ -114,13 +128,15 @@ public class TestNGWikipediaDemo {
             Long value = (Long) executor.executeScript("return window.scrollY;");
             Assert.assertNotEquals(value, 0, 0);
         } catch (Exception e) {
-            passed = false;
+            ctx.passed = false;
             throw e;
         }
     }
-    /*
+
     @Test
     public void verifyEditPageUI() throws Exception {
+        Ctx ctx = (Ctx) threadLocal.get();
+        WebDriver driver = ctx.driver;
         try {
             driver.get("http://en.wikipedia.org/wiki/Ultimate_Fighting_Championship");
 
@@ -131,12 +147,14 @@ public class TestNGWikipediaDemo {
             Assert.assertEquals("http://en.wikipedia.org/w/index.php?title=Ultimate_Fighting_Championship&action=edit", driver.getCurrentUrl());
             Assert.assertTrue(driver.findElement(By.cssSelector(".wikiEditor-ui")).isDisplayed());
         } catch (Exception e) {
-            passed = false;
+            ctx.passed = false;
             throw e;
         }
     }
-    */
+
     private void longTestImpl() throws Exception {
+        Ctx ctx = (Ctx) threadLocal.get();
+        WebDriver driver = ctx.driver;
         try {
             // looping between 3 and 10 times
             int numOfLoops = randomGenerator.nextInt(7) + 3;
@@ -157,11 +175,11 @@ public class TestNGWikipediaDemo {
                         driver.getCurrentUrl());
             }
         } catch (Exception e) {
-            passed = false;
+            ctx.passed = false;
             throw e;
         }
     }
-    /*
+
     @Test
     public void longTest1() throws Exception {
         longTestImpl();
@@ -176,5 +194,14 @@ public class TestNGWikipediaDemo {
     public void longTest3() throws Exception {
         longTestImpl();
     }
-    */
+
+    @Test
+    public void longTest4() throws Exception {
+        longTestImpl();
+    }
+
+    @Test
+    public void longTest5() throws Exception {
+        longTestImpl();
+    }
  }
