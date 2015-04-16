@@ -62,7 +62,7 @@ public class TestNGWikipediaDemo {
         driver.quit();
     }
 
-    /*
+
     @Test
     public void verifyLaunch() throws Exception {
         try {
@@ -118,7 +118,7 @@ public class TestNGWikipediaDemo {
             throw e;
         }
     }
-
+    /*
     @Test
     public void verifyEditPageUI() throws Exception {
         try {
@@ -171,9 +171,10 @@ public class TestNGWikipediaDemo {
     public void longTest2() throws Exception {
         longTestImpl();
     }
-    */
+
     @Test
     public void longTest3() throws Exception {
         longTestImpl();
     }
+    */
  }
