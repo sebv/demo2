@@ -51,7 +51,7 @@ public class TestNGWikipediaDemo {
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         capabilities.setCapability("name", "TestNGWikipediaDemo - " + method.getName());
         ctx.driver = new RemoteWebDriver(
-                new URL("https://" + username + ":" + accessKey + "@ondemand.saucelabs.com/wd/hub"),
+                new URL("http://" + username + ":" + accessKey + "@ondemand.saucelabs.com:80/wd/hub"),
                 capabilities);
         ctx.driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         ctx.jobId = ((RemoteWebDriver) ctx.driver).getSessionId().toString();
@@ -76,16 +76,6 @@ public class TestNGWikipediaDemo {
         Ctx ctx = (Ctx) threadLocal.get();
         WebDriver driver = ctx.driver;
         try {
-            driver.get("http://wikipedia.org");
-
-            // Make the browser get the page and check its title
-            Assert.assertEquals("Wikipedia", driver.getTitle());
-
-            // Check if the launch page elements are there
-            Assert.assertTrue(driver.findElement(By.cssSelector(".central-featured")).isDisplayed());
-            Assert.assertTrue(driver.findElement(By.cssSelector("#searchInput")).isDisplayed());
-            Assert.assertTrue(driver.findElement(By.cssSelector("#searchLanguage")).isDisplayed());
-            Assert.assertTrue(driver.findElement(By.cssSelector(".search-form .formBtn")).isDisplayed());
         } catch (Exception e) {
             ctx.passed = false;
             throw e;
