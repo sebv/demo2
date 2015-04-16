@@ -13,7 +13,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.By;
 
 public class TestNGWikipediaDemo {
@@ -22,7 +22,9 @@ public class TestNGWikipediaDemo {
 
     @BeforeMethod
     public void setUp(Method method) throws Exception {
-    	this.driver = new FirefoxDriver();
+    	this.driver = new RemoteWebDriver(
+            new URL("http://username-string:access-key-string@ondemand.saucelabs.com:80/wd/hub"),
+            capabillities);
     }
 
     @AfterMethod
