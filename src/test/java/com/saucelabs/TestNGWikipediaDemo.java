@@ -51,7 +51,7 @@ public class TestNGWikipediaDemo {
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         capabilities.setCapability("name", "TestNGWikipediaDemo - " + method.getName());
         ctx.driver = new RemoteWebDriver(
-                new URL("https://" + username + ":" + accessKey + "@ondemand.saucelabs.com:443/wd/hub"),
+                new URL("https://" + username + ":" + accessKey + "@ondemand.saucelabs.com/wd/hub"),
                 capabilities);
         ctx.driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         ctx.jobId = ((RemoteWebDriver) ctx.driver).getSessionId().toString();
