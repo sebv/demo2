@@ -25,7 +25,8 @@ import java.util.concurrent.TimeUnit;
 import com.saucelabs.saucerest.SauceREST;
 
 
-public class TestNGWikipediaDemo {
+
+public class TestNGWikipediaDemoBis {
     class Ctx {
         public WebDriver driver;
         public String jobId;
@@ -49,7 +50,7 @@ public class TestNGWikipediaDemo {
         if(threadLocal.get() == null) threadLocal.set(new Ctx());
         Ctx ctx = (Ctx) threadLocal.get();
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
-        capabilities.setCapability("name", "TestNGWikipediaDemo - " + method.getName());
+        capabilities.setCapability("name", "TestNGWikipediaDemoBis - " + method.getName());
         ctx.driver = new RemoteWebDriver(
                 new URL("http://" + username + ":" + accessKey + "@ondemand.saucelabs.com:80/wd/hub"),
                 capabilities);
