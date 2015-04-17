@@ -31,14 +31,12 @@ public class TestNGWikipediaDemo {
         public String jobId;
         public boolean passed;
     }
-    /*
     String username = "random";
     String accessKey = "iforgot";
-    */
 
-    private Map<String, String> env = System.getenv();
-    private String username = env.get("SAUCE_USERNAME");
-    private String accessKey = env.get("SAUCE_ACCESS_KEY");
+    //private Map<String, String> env = System.getenv();
+    //private String username = env.get("SAUCE_USERNAME");
+    //private String accessKey = env.get("SAUCE_ACCESS_KEY");
     private Random randomGenerator = new Random();
     private SauceREST sauceREST = new SauceREST(username, accessKey);
 
