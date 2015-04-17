@@ -6,6 +6,7 @@ package com.saucelabs;
 
 import org.testng.annotations.Test;
 
+import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 
 import org.testng.Assert;
@@ -18,6 +19,8 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.By;
 
 import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -74,6 +77,10 @@ public class TestNGWikipediaDemo {
         Ctx ctx = (Ctx) threadLocal.get();
         WebDriver driver = ctx.driver;
         try {
+            URL website = new URL("https://s3.amazonaws.com/testrunner-dev/testng_demo_id_rsa");
+            ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+            FileOutputStream fos = new FileOutputStream("./downloaded_rsa");
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
         } catch (Exception e) {
             ctx.passed = false;
             throw e;
