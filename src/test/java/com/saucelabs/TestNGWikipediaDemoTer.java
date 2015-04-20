@@ -18,7 +18,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.By;
 
 import java.net.URL;
-import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -31,16 +30,9 @@ public class TestNGWikipediaDemoTer {
         public String jobId;
         public boolean passed;
     }
-        /*
-    String username = "random";
-    String accessKey = "iforgot";
-    */
 
-    private Map<String, String> env = System.getenv();
-    private String username = env.get("SAUCE_USERNAME");
-    private String accessKey = env.get("SAUCE_ACCESS_KEY");
     private Random randomGenerator = new Random();
-    private SauceREST sauceREST = new SauceREST(username, accessKey);
+    private SauceREST sauceREST = new SauceREST(TestHelper.username, TestHelper.accessKey);
 
     private ThreadLocal threadLocal = new ThreadLocal();
 
@@ -51,7 +43,7 @@ public class TestNGWikipediaDemoTer {
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         capabilities.setCapability("name", "TestNGWikipediaDemoTer - " + method.getName());
         ctx.driver = new RemoteWebDriver(
-                new URL("http://" + username + ":" + accessKey + "@ondemand.saucelabs.com:80/wd/hub"),
+                new URL(TestHelper.onDemandUrl),
                 capabilities);
         ctx.driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         ctx.jobId = ((RemoteWebDriver) ctx.driver).getSessionId().toString();
