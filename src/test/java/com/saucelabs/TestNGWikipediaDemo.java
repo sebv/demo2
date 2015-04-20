@@ -37,9 +37,6 @@ public class TestNGWikipediaDemo {
     String username = "random";
     String accessKey = "iforgot";
 
-    //private Map<String, String> env = System.getenv();
-    //private String username = env.get("SAUCE_USERNAME");
-    //private String accessKey = env.get("SAUCE_ACCESS_KEY");
     private Random randomGenerator = new Random();
     private SauceREST sauceREST = new SauceREST(username, accessKey);
 
@@ -52,7 +49,7 @@ public class TestNGWikipediaDemo {
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         capabilities.setCapability("name", "TestNGWikipediaDemo - " + method.getName());
         ctx.driver = new RemoteWebDriver(
-                new URL("http://" + username + ":" + accessKey + "@ondemand.saucelabs.com:80/wd/hub"),
+                new URL("http://" + username + ":" + accessKey + "@badlyconfigured.com:80/wd/hub"),
                 capabilities);
         ctx.driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         ctx.jobId = ((RemoteWebDriver) ctx.driver).getSessionId().toString();
